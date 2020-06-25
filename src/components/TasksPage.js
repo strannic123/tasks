@@ -1,8 +1,9 @@
 import React, {useState} from "react";
+import TasksList from "./TasksList";
 
 const TASKS_STATUSES = ["Unstarted", "In Progress", "Completed"]
 
-const TasksPage = () => {
+const TasksPage = (props) => {
   const [cardForm, showCardForm] = useState(false)
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -19,8 +20,30 @@ const TasksPage = () => {
     showCardForm(!cardForm)
   }
 
-  const renderTaskLists = () => {
+  const onCreateTask = (e) => {
+    e.preventDefault()
+    props.onCreateTask({
+      title,
+      description
+    })
+  }
 
+  const renderTaskLists = () => {
+    const {tasks} = props;
+    return TASKS_STATUSES.map((status, id) => {
+      const statusTasks = tasks.filter(task => task.status === status);
+      return (
+        <div className="col-md-3 card m-2 p-0" key={id}>
+          <TasksList
+            key={status}
+            status={status}
+            tasks={statusTasks}
+            onStatusChange={props.onStatusChange}
+          />
+        </div>
+
+      )
+    })
   }
 
   return (
@@ -38,7 +61,7 @@ const TasksPage = () => {
         </div>
         {/*Inputs Form*/}
         {cardForm && (
-        <form>
+        <form onSubmit={onCreateTask}>
           <div className="form-group">
             <input
               type="text"
@@ -59,6 +82,10 @@ const TasksPage = () => {
 
         </form>
           )}
+      </div>
+      <div className="row d-flex justify-content-center position-relative"
+           style={{background: "#e9ecef"}}>
+        {renderTaskLists()}
       </div>
     </div>
   )
