@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Проект "Список дел". React-redux
+
 ![Imgur](https://i.imgur.com/ipU4yqn.gif)
 
 ## Available Scripts
